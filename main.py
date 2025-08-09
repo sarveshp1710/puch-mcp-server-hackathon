@@ -1,6 +1,6 @@
 import os
 from fastapi import FastAPI
-from fastmcp import FastMCP, ServerSettings # Import ServerSettings
+from fastmcp import FastMCP
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -11,14 +11,10 @@ app = FastAPI(
     description="A collection of useful media and document tools.",
 )
 
-# --- Explicitly define the server settings ---
-# This tells FastMCP exactly where to create its endpoint, fixing the 404 error.
-settings = ServerSettings(
-    streamable_http_path="/mcp"
-)
-
-# Initialize FastMCP, passing our app and the explicit settings.
-mcp = FastMCP(app, settings=settings) 
+# Initialize FastMCP, passing the app directly.
+# The streamable_http_path argument was removed to fix the DeprecationWarning.
+# The library defaults to "/mcp", which is what we need.
+mcp = FastMCP(app) 
 
 
 # --- Mandatory Validation Tool ---
