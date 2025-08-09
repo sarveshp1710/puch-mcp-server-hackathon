@@ -1,0 +1,15 @@
+# Environment variables
+.env
+
+# Virtual Environment
+venv/
+puch-mcp-server/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# IDE and OS files
+.vscode/
+.idea/
+.DS_Store
