@@ -13,14 +13,10 @@ app = FastAPI(
     description="A collection of useful media and document tools.",
 )
 
-# Initialize the FastMCP library. This object will manage our AI tools.
-mcp = FastMCP() 
-
-# --- Mount the MCP Endpoint ---
-# This is a crucial step. It tells our FastAPI server that any web traffic
-# coming to the "/mcp" path should be handled by the FastMCP library.
-# This is the "front door" for Puch AI to communicate with our tools.
-app.mount("/mcp", mcp.http_app)
+# Initialize the FastMCP library, passing our FastAPI app directly to it.
+# This is the most stable way to integrate the two and avoids the mounting bug.
+# The library will automatically create the /mcp endpoint for us.
+mcp = FastMCP(app) 
 
 
 # --- Mandatory Validation Tool ---
