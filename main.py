@@ -1,9 +1,8 @@
 import os
 from fastapi import FastAPI
 from fastmcp import FastMCP
-from dotenv import load_dotenv # Import the new library
+from dotenv import load_dotenv
 
-# Load all the variables from the .env file
 load_dotenv()
 
 # --- Server Setup ---
@@ -11,7 +10,12 @@ app = FastAPI(
     title="My Puch AI MCP Server",
     description="A collection of useful media and document tools.",
 )
-mcp = FastMCP(app)
+mcp = FastMCP() # Initialize FastMCP without the app first
+
+# --- Mount the MCP Endpoint ---
+# This is the new, crucial line.
+# It tells FastAPI to direct all traffic from "/mcp" to the fastmcp library.
+app.mount("/mcp", mcp.app)
 
 
 # --- Mandatory Validation Tool ---
@@ -22,16 +26,14 @@ mcp = FastMCP(app)
 async def validate(token: str) -> str:
     """
     This tool is required for Puch AI to connect to your server.
-    It securely loads the phone number from the .env file.
+    It securely loads the phone number from the environment.
     """
-    # Securely get the phone number from the environment variables
     owner_phone_number = os.getenv("OWNER_PHONE_NUMBER")
 
     if not owner_phone_number:
-        # This is a fallback in case the .env file is missing
-        raise ValueError("OWNER_PHONE_NUMBER not found in .env file!")
+        raise ValueError("OWNER_PHONE_NUMBER not found in environment!")
     
-    print(f"Validation successful for token: {token}")
+    print(f"✅ Validation successful for token: {token}")
     return owner_phone_number
 
 
