@@ -31,7 +31,7 @@ async def validate(token: str) -> str:
         # This is a fallback in case the .env file is missing
         raise ValueError("OWNER_PHONE_NUMBER not found in .env file!")
     
-    print(f"✅ Validation successful for token: {token}")
+    print(f"Validation successful for token: {token}")
     return owner_phone_number
 
 
